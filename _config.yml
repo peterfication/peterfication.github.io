@@ -2,7 +2,7 @@ title: Peter Gundel
 markdown: kramdown
 domain: "peterfication.github.io"
 url: "https://peterfication.github.io"
-baseurl: "/"
+baseurl: ""
 
 # for atom feed
 author:
