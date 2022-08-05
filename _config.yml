@@ -1,12 +1,11 @@
-title: Jekyll Serial Programmer
+title: Peter Gundel
 markdown: kramdown
 url: ""
-baseurl: "/jekyll-theme-serial-programmer"
+baseurl: "/personal-website"
 
 # for atom feed
 author:
-  name: Sharad Raj Singh Maurya
-  email: dev_sharad@outlook.com
+  name: Peter Gundel
 
 plugins:
   - jemoji

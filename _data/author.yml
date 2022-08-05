@@ -1,23 +1,19 @@
-name: Sharad Raj
-dp: https://avatars2.githubusercontent.com/u/36638057?s=460&u=0cbe4fd6b5a3655d91b3eb86db834d0829a0c086&v=4
+name: Peter Gundel
+dp: https://avatars.githubusercontent.com/u/4454052?v=4
 description: "
   <p>
-    Developed by Sharad Raj who lives in India building useful things for the world.
+  I'm a Ruby ninja with TypeScript experience who likes to work with Kubernetes.
   </p>
   <br/>
   <p>
-    You should follow him on <a href='https://github.com/sharadcodes' target='_blank'>Github</a>
-  </P>
-"
-email: dev_sharad@outlook.com
+  I love to write code and a small part of it you can see on Github.
+  Currently I'm a freelance software engineer / tech lead.
+  The five years before that, I was CTO at store2be in Berlin.
+  </p>
+  "
+email:
 contact:
   - title: linkedin
-    url: https://www.linkedin.com/in/srsmaurya
+    url: https://www.linkedin.com/in/peter-gundel-a26746104/
   - title: github
-    url: https://github.com/sharadcodes
-  - title: twitter
-    url: https://twitter.com/iamsharadraj
-  - title: dev
-    url: https://dev.to/sharadcodes
-  - title: email
-    url: mailto:dev_sharad@outlook.com
+    url: https://github.com/peterfication
