@@ -75,3 +75,8 @@ hr {
   border-right: none !important;
   margin-bottom: 1.75rem !important;
 }
+
+footer {
+  border-top: 2px dashed var(--white-2);
+  padding-top: 10px;
+}
