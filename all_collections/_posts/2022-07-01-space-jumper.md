@@ -25,7 +25,7 @@ A few years ago, I wanted to play around with JavaScript a bit so I decided to i
 
 This version of the game is still online and ready to "play": [Space Jumper JavaScript edition](https://www.petergundel.de/space-jumper) ([source code on GitHub](https://github.com/peterfication/space-jumper)).
 
-> TODO: Insert photo of Space Jumper JavaScript edition.
+![JavaScript Project](/assets/images/space-jumper/javascript-project.jpg)
 
 ---
 

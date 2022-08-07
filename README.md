@@ -4,7 +4,6 @@ Based on [Jekyll Serial Programmer Theme](https://sharadcodes.github.io/jekyll-t
 
 ## TODO
 
-- Connect domain
 - Add portfolio overview
 - Use different font
 
