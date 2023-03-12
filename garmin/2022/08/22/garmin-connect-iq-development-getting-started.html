@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Garmin Connect IQ development - Getting started | Peter Gundel</title>
+
+<link rel="shortcut icon" href="/assets/favicon.ico" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+
+  </head>
+  <body class="bg-stone-900 text-gray-400">
+    <div class="w-full md:w-3/4 lg:w-2/3 bg-stone-800 mx-auto p-6">
+      
+      <main class="">
+        <div class="flex border-b-2 border-dashed pb-4 mb-8">
+  <div class="basis-1/2">
+    <a class="hover:underline cursor-pointer" href="/"><- Back</a>
+  </div>
+  <div class="text-right font-bold basis-1/2">
+    <a class="hover:underline cursor-pointer" href="/">Peter's blog</a>
+  </div>
+</div>
+
+<h2 class="text-sky-800 text-3xl font-thin text-center mb-8">
+  Garmin Connect IQ development - Getting started
+</h2>
+
+<div class="flex">
+  <ul class="flex mb-10 basis-3/4">
+    
+      <li class="bg-stone-500 rounded-full px-4 mr-4 text-stone-900">garmin</li>
+    
+  </ul>
+  <div class="basis-1/4 text-right">
+    22 Aug 2022
+  </div>
+
+</div>
+
+<div id="post">
+  <p>I recently got a Garmin Smartwatch and I thought it would be interesting to get to know it as well from a development platform perspective. First, I tried to find resources and examples online to get a grasp of Garmin Connect IQ development. This is how my <a href="https://github.com/peterfication/awesome-garmin-connect-iq">Awesome List Garmin Connect IQ</a> started.</p>
+
+<p>While searching for how to get started, I came across <a href="https://medium.com/@JoshuaTheMiller/making-a-watchface-for-garmin-devices-8c3ce28cae08">this post from 2018 from Joshua Miller</a> which explains how to get started with Garmin Connect IQ development back then with Eclipse. It seemed simple so I was eager to create a simple Garmin Watchface myself. However, I wasn’t looking forward to install Eclipse …</p>
+
+<p>To my pleasant surprise, while reading through the install steps on the Garmin IQ website, I found out that Eclipse is a thing of the past when talking about Garmin Connect IQ development. Now, everything is set up to work with Visual Studio Code. Event though I mostly work with Vim, this is ok for a small project, at least for starting with it.</p>
+
+<p>I have to say, Garmin did a very good job on their documentation and developer experience! This means, my article is not really long.</p>
+
+<ol>
+  <li>Install VS Code</li>
+  <li>Walk through the <a href="https://developer.garmin.com/connect-iq/connect-iq-basics/getting-started">“Getting started” page</a> from Garmin</li>
+  <li>Walk through the <a href="https://developer.garmin.com/connect-iq/connect-iq-basics/your-first-app/">“Your first app” page</a> from Garmin</li>
+</ol>
+
+<p>And then you already have a simulated watchface on your machine.</p>
+
+<p><img src="/assets/images/garmin/garmin-simulator-watchface-basic.jpg" alt="Garmin Simulator Watchface" /></p>
+
+<p>One final tip for getting started: The location on a Mac of the official samples from the SDK are here:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Library/Application Support/Garmin/ConnectIQ/Sdks/{YOUR_CURRENT_SDK}.
+</code></pre></div></div>
+
+</div>
+
+      </main>
+      <footer class="mt-8 pt-6 pb-4 border-t-2 border-dashed flex">
+  <div class="basis-1/2">
+    <ul class="w-full flex">
+      <li class="px-3 border-r-2 border-slate-400">
+        mail[]petergundel.de
+      </li>
+      <li class="px-3 border-r-2 border-slate-400">
+        <a class="hover:underline cursor-pointer" href="https://github.com/peterfication">Github</a>
+      </li>
+      <li class="px-3">
+        <a class="hover:underlin cursor-pointer" href="https://www.linkedin.com/in/peter-gundel-a26746104/">LinkedIn</a>
+      </li>
+    </ul>
+  </div>
+  <div class="basis-1/2 text-right">
+    Producing serious code since 2009.
+  </div>
+</footer>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RSpec GraphQL integration testing | Peter Gundel</title>
+
+<link rel="shortcut icon" href="/assets/favicon.ico" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+
+  </head>
+  <body class="bg-stone-900 text-gray-400">
+    <div class="w-full md:w-3/4 lg:w-2/3 bg-stone-800 mx-auto p-6">
+      
+      <main class="">
+        <div class="flex border-b-2 border-dashed pb-4 mb-8">
+  <div class="basis-1/2">
+    <a class="hover:underline cursor-pointer" href="/"><- Back</a>
+  </div>
+  <div class="text-right font-bold basis-1/2">
+    <a class="hover:underline cursor-pointer" href="/">Peter's blog</a>
+  </div>
+</div>
+
+<h2 class="text-sky-800 text-3xl font-thin text-center mb-8">
+  RSpec GraphQL integration testing
+</h2>
+
+<div class="flex">
+  <ul class="flex mb-10 basis-3/4">
+    
+      <li class="bg-stone-500 rounded-full px-4 mr-4 text-stone-900">ruby</li>
+    
+      <li class="bg-stone-500 rounded-full px-4 mr-4 text-stone-900">rspec</li>
+    
+      <li class="bg-stone-500 rounded-full px-4 mr-4 text-stone-900">graphql</li>
+    
+  </ul>
+  <div class="basis-1/4 text-right">
+    16 Jan 2023
+  </div>
+
+</div>
+
+<div id="post">
+  <p>While working on different Ruby projects, I noticed one pattern when writing integration tests for GraphQL: You write your query in a multiline string, get the response, parse it (probably with a helper) and write some expectations, maybe even expecting a whole multi-dimensional <code class="language-plaintext highlighter-rouge">Hash</code>. This could then look something like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="s2">"Query.currentUser"</span> <span class="k">do</span>
+  <span class="n">subject</span><span class="p">(</span><span class="ss">:query_result</span><span class="p">)</span> <span class="p">{</span> <span class="no">MySchema</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="ss">context: </span><span class="n">context</span><span class="p">).</span><span class="nf">as_json</span> <span class="p">}</span>
+
+  <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:context</span><span class="p">)</span> <span class="p">{</span> <span class="p">{</span> <span class="ss">current_user: </span><span class="n">user</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:query</span><span class="p">)</span> <span class="p">{</span> <span class="o">&lt;&lt;~</span><span class="no">GRAPHQL</span> <span class="p">}</span><span class="sh">
+      query {
+        currentUser {
+          id
+          email
+        }
+      }
+</span><span class="no">    GRAPHQL</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:expected_result</span><span class="p">)</span> <span class="k">do</span>
+    <span class="p">{</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">"currentUser"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">"id"</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">.</span><span class="nf">id</span><span class="p">.</span><span class="nf">to_s</span><span class="p">,</span> <span class="s2">"email"</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">.</span><span class="nf">email</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}.</span><span class="nf">as_json</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">"returns the current user"</span> <span class="k">do</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">query_result</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected_result</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>For small queries, this is fine. But for big queries (and hence, big responses) this gets unhandy very fast. This is subjective of course ;)</p>
+
+<p>Another issue is that we can’t leverage the GraphQL language server while writing/maintaining these integration tests.</p>
+
+<h2 id="a-solution-to-this">A solution to this</h2>
+
+<p>I decided to use this opportunity to write my first gem: <a href="https://github.com/peterfication/rspec-graphql-integration"><code class="language-plaintext highlighter-rouge">rspec-graphql-integration</code></a></p>
+
+<p>This gem tries to improve this situation by moving the query and the response in their own files with a proper file type. This way, the integration test files are smaller and can focus on mocking data/instances. Also, the GraphQL language server will give you autocompletion/linting in your GraphQL files (if you’ve set up your editor for it).</p>
+
+<p>The simple integration test from above then looks like this:</p>
+
+<p><em><code class="language-plaintext highlighter-rouge">current_user_spec.rb</code></em></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="s2">"Query.currentUser"</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:context</span><span class="p">)</span> <span class="p">{</span> <span class="p">{</span> <span class="ss">current_user: </span><span class="n">user</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:response_variables</span><span class="p">)</span> <span class="p">{</span> <span class="p">{</span> <span class="ss">user_id: </span><span class="n">user</span><span class="p">.</span><span class="nf">id</span><span class="p">,</span> <span class="ss">user_email: </span><span class="n">user</span><span class="p">.</span><span class="nf">email</span> <span class="p">}</span> <span class="p">}</span>
+
+  <span class="n">it</span> <span class="p">{</span> <span class="n">is_expected</span><span class="p">.</span><span class="nf">to</span> <span class="n">match_graphql_response</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p><em><code class="language-plaintext highlighter-rouge">current_user.graphql</code></em></p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">currentUser</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">email</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><em><code class="language-plaintext highlighter-rouge">current_user.json</code></em></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"currentUser"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+</div>
+
+      </main>
+      <footer class="mt-8 pt-6 pb-4 border-t-2 border-dashed flex">
+  <div class="basis-1/2">
+    <ul class="w-full flex">
+      <li class="px-3 border-r-2 border-slate-400">
+        mail[]petergundel.de
+      </li>
+      <li class="px-3 border-r-2 border-slate-400">
+        <a class="hover:underline cursor-pointer" href="https://github.com/peterfication">Github</a>
+      </li>
+      <li class="px-3">
+        <a class="hover:underlin cursor-pointer" href="https://www.linkedin.com/in/peter-gundel-a26746104/">LinkedIn</a>
+      </li>
+    </ul>
+  </div>
+  <div class="basis-1/2 text-right">
+    Producing serious code since 2009.
+  </div>
+</footer>
+
+    </div>
+  </body>
+</html>

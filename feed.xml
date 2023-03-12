@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-12T14:21:11+00:00</updated><id>/feed.xml</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">RSpec GraphQL integration testing</title><link href="/ruby/rspec/graphql/2023/01/16/rspec-graphql-integration-testing.html" rel="alternate" type="text/html" title="RSpec GraphQL integration testing" /><published>2023-01-16T00:00:00+00:00</published><updated>2023-01-16T00:00:00+00:00</updated><id>/ruby/rspec/graphql/2023/01/16/rspec-graphql-integration-testing</id><content type="html" xml:base="/ruby/rspec/graphql/2023/01/16/rspec-graphql-integration-testing.html"><![CDATA[<p>While working on different Ruby projects, I noticed one pattern when writing integration tests for GraphQL: You write your query in a multiline string, get the response, parse it (probably with a helper) and write some expectations, maybe even expecting a whole multi-dimensional <code class="language-plaintext highlighter-rouge">Hash</code>. This could then look something like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="s2">"Query.currentUser"</span> <span class="k">do</span>
+  <span class="n">subject</span><span class="p">(</span><span class="ss">:query_result</span><span class="p">)</span> <span class="p">{</span> <span class="no">MySchema</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="ss">context: </span><span class="n">context</span><span class="p">).</span><span class="nf">as_json</span> <span class="p">}</span>
+
+  <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:context</span><span class="p">)</span> <span class="p">{</span> <span class="p">{</span> <span class="ss">current_user: </span><span class="n">user</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:query</span><span class="p">)</span> <span class="p">{</span> <span class="o">&lt;&lt;~</span><span class="no">GRAPHQL</span> <span class="p">}</span><span class="sh">
+      query {
+        currentUser {
+          id
+          email
+        }
+      }
+</span><span class="no">    GRAPHQL</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:expected_result</span><span class="p">)</span> <span class="k">do</span>
+    <span class="p">{</span> <span class="s2">"data"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">"currentUser"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="s2">"id"</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">.</span><span class="nf">id</span><span class="p">.</span><span class="nf">to_s</span><span class="p">,</span> <span class="s2">"email"</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">.</span><span class="nf">email</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}.</span><span class="nf">as_json</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">"returns the current user"</span> <span class="k">do</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">query_result</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected_result</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>For small queries, this is fine. But for big queries (and hence, big responses) this gets unhandy very fast. This is subjective of course ;)</p>
+
+<p>Another issue is that we can’t leverage the GraphQL language server while writing/maintaining these integration tests.</p>
+
+<h2 id="a-solution-to-this">A solution to this</h2>
+
+<p>I decided to use this opportunity to write my first gem: <a href="https://github.com/peterfication/rspec-graphql-integration"><code class="language-plaintext highlighter-rouge">rspec-graphql-integration</code></a></p>
+
+<p>This gem tries to improve this situation by moving the query and the response in their own files with a proper file type. This way, the integration test files are smaller and can focus on mocking data/instances. Also, the GraphQL language server will give you autocompletion/linting in your GraphQL files (if you’ve set up your editor for it).</p>
+
+<p>The simple integration test from above then looks like this:</p>
+
+<p><em><code class="language-plaintext highlighter-rouge">current_user_spec.rb</code></em></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="s2">"Query.currentUser"</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:context</span><span class="p">)</span> <span class="p">{</span> <span class="p">{</span> <span class="ss">current_user: </span><span class="n">user</span> <span class="p">}</span> <span class="p">}</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:response_variables</span><span class="p">)</span> <span class="p">{</span> <span class="p">{</span> <span class="ss">user_id: </span><span class="n">user</span><span class="p">.</span><span class="nf">id</span><span class="p">,</span> <span class="ss">user_email: </span><span class="n">user</span><span class="p">.</span><span class="nf">email</span> <span class="p">}</span> <span class="p">}</span>
+
+  <span class="n">it</span> <span class="p">{</span> <span class="n">is_expected</span><span class="p">.</span><span class="nf">to</span> <span class="n">match_graphql_response</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p><em><code class="language-plaintext highlighter-rouge">current_user.graphql</code></em></p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">currentUser</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">email</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><em><code class="language-plaintext highlighter-rouge">current_user.json</code></em></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"currentUser"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>]]></content><author><name></name></author><category term="ruby" /><category term="rspec" /><category term="graphql" /><summary type="html"><![CDATA[While working on different Ruby projects, I noticed one pattern when writing integration tests for GraphQL: You write your query in a multiline string, get the response, parse it (probably with a helper) and write some expectations, maybe even expecting a whole multi-dimensional Hash. This could then look something like this:]]></summary></entry><entry><title type="html">Garmin Connect IQ development - Getting started</title><link href="/garmin/2022/08/22/garmin-connect-iq-development-getting-started.html" rel="alternate" type="text/html" title="Garmin Connect IQ development - Getting started" /><published>2022-08-22T00:00:00+00:00</published><updated>2022-08-22T00:00:00+00:00</updated><id>/garmin/2022/08/22/garmin-connect-iq-development-getting-started</id><content type="html" xml:base="/garmin/2022/08/22/garmin-connect-iq-development-getting-started.html"><![CDATA[<p>I recently got a Garmin Smartwatch and I thought it would be interesting to get to know it as well from a development platform perspective. First, I tried to find resources and examples online to get a grasp of Garmin Connect IQ development. This is how my <a href="https://github.com/peterfication/awesome-garmin-connect-iq">Awesome List Garmin Connect IQ</a> started.</p>
+
+<p>While searching for how to get started, I came across <a href="https://medium.com/@JoshuaTheMiller/making-a-watchface-for-garmin-devices-8c3ce28cae08">this post from 2018 from Joshua Miller</a> which explains how to get started with Garmin Connect IQ development back then with Eclipse. It seemed simple so I was eager to create a simple Garmin Watchface myself. However, I wasn’t looking forward to install Eclipse …</p>
+
+<p>To my pleasant surprise, while reading through the install steps on the Garmin IQ website, I found out that Eclipse is a thing of the past when talking about Garmin Connect IQ development. Now, everything is set up to work with Visual Studio Code. Event though I mostly work with Vim, this is ok for a small project, at least for starting with it.</p>
+
+<p>I have to say, Garmin did a very good job on their documentation and developer experience! This means, my article is not really long.</p>
+
+<ol>
+  <li>Install VS Code</li>
+  <li>Walk through the <a href="https://developer.garmin.com/connect-iq/connect-iq-basics/getting-started">“Getting started” page</a> from Garmin</li>
+  <li>Walk through the <a href="https://developer.garmin.com/connect-iq/connect-iq-basics/your-first-app/">“Your first app” page</a> from Garmin</li>
+</ol>
+
+<p>And then you already have a simulated watchface on your machine.</p>
+
+<p><img src="/assets/images/garmin/garmin-simulator-watchface-basic.jpg" alt="Garmin Simulator Watchface" /></p>
+
+<p>One final tip for getting started: The location on a Mac of the official samples from the SDK are here:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Library/Application Support/Garmin/ConnectIQ/Sdks/{YOUR_CURRENT_SDK}.
+</code></pre></div></div>]]></content><author><name></name></author><category term="garmin" /><summary type="html"><![CDATA[I recently got a Garmin Smartwatch and I thought it would be interesting to get to know it as well from a development platform perspective. First, I tried to find resources and examples online to get a grasp of Garmin Connect IQ development. This is how my Awesome List Garmin Connect IQ started.]]></summary></entry><entry><title type="html">Space Jumper</title><link href="/game/project/2022/07/01/space-jumper.html" rel="alternate" type="text/html" title="Space Jumper" /><published>2022-07-01T00:00:00+00:00</published><updated>2022-07-01T00:00:00+00:00</updated><id>/game/project/2022/07/01/space-jumper</id><content type="html" xml:base="/game/project/2022/07/01/space-jumper.html"><![CDATA[<p>Back in the 90s, I played a nice logical game on a computer. Unfortunately, the computer broke eventually and the game was lost for me. I also forgot the name of the game.</p>
+
+<p>I still remembered the way the game worked. So when I was in school, my friends and I created levels on paper for each other to play. Here is what it looked like:</p>
+
+<p><img src="/assets/images/space-jumper/paper-project.jpg" alt="Paper Project" /></p>
+
+<p>A level consists of a number of platforms and you start on a defined platform. The goal is to visit each platform once. You can only move horizontally and vertically and you can either move to the platform right next to the current one or jump over a platform/empty space.</p>
+
+<hr />
+
+<p>In the final year in school, we had to create a project in our computer science class. My friends and I decided to create this game we player on paper with the programming language we used in this class: Delphi. It was definitely not the most beautiful game, but we were able to implement it, which was huge success for us back then!</p>
+
+<p><img src="/assets/images/space-jumper/delphi-project.jpg" alt="Delphi Project" /></p>
+
+<hr />
+
+<p>A few years ago, I wanted to play around with JavaScript a bit so I decided to implement the game again but this time as a small website. I made the basic functionality work and used a very minimalistic style this time. It’s possible to play this version of the game via the arrow keys or via touch/click. The goal was to be able to play it on mobile. But I never polished it and added a lot of levels.</p>
+
+<p>This version of the game is still online and ready to “play”: <a href="https://www.petergundel.de/space-jumper">Space Jumper JavaScript edition</a> (<a href="https://github.com/peterfication/space-jumper">source code on GitHub</a>).</p>
+
+<p><img src="/assets/images/space-jumper/javascript-project.jpg" alt="JavaScript Project" /></p>
+
+<hr />
+
+<p>This year, I wanted to check out Unity and how game development with it works. So I thought, why not create a new version of it again ;) This is what it looks like:</p>
+
+<p><img src="/assets/images/space-jumper/unity-project.jpg" alt="Unity Project" /></p>
+
+<p>I wouldn’t call it completely finished, but I also don’t want to spend more time on it at the moment. This version of the game is also available to play online: <a href="https://peterfication.itch.io/space-jumper">Space Jumper Unity edition</a> (<a href="https://github.com/peterfication/space-jumper-unity">source code on GitHub</a>).</p>
+
+<p>Here is what I learned:</p>
+
+<ul>
+  <li>How to create a simple 2d game in Unity</li>
+  <li>A bit of C#</li>
+  <li>How to deal with the game loop</li>
+  <li>How to create 2d levels programmatically</li>
+  <li>How to publish a Unity game online</li>
+</ul>
+
+<p>After publishing the Unity version of the game, I tried to search for the original game again. Unfortunately, I wasn’t successful. However, I was able to find a game with a similar game logic: <a href="https://dosgames.com/game/pod">Pod</a></p>]]></content><author><name></name></author><category term="game" /><category term="project" /><summary type="html"><![CDATA[Back in the 90s, I played a nice logical game on a computer. Unfortunately, the computer broke eventually and the game was lost for me. I also forgot the name of the game.]]></summary></entry></feed>
