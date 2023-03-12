@@ -3,11 +3,13 @@
   <head>
     {% include head.html %}
   </head>
-  <body class="bg-slate-500">
-    {% include header.html %}
-    <main class="w-full md:w-3/4 lg:w-2/3 bg-gray-50 mx-auto">
-      {{ content }}
-    </main>
-    {% include footer.html %}
+  <body class="bg-stone-900 text-gray-400">
+    <div class="w-full md:w-3/4 lg:w-2/3 bg-stone-800 mx-auto p-6">
+      {% include header.html %}
+      <main class="">
+        {{ content }}
+      </main>
+      {% include footer.html %}
+    </div>
   </body>
 </html>

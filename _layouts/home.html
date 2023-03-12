@@ -4,20 +4,22 @@ layout: default
 
 {{ content }}
 
-<section class="articles">
-{% for post in site.posts %}
-<article class="article">
-  <h2 class="article-title">
-    <a href="{{site.baseurl}}{{post.url}}"> {{post.title}} </a>
-  </h2>
-  <small class="date">{{post.date | date_to_string}}</small>
-  <div class="categories">
-    {% for c in post.categories %}
-    <a href="#!" data-base-url="{{site.baseurl}}" class="category"
-      >{{c}}</a
-    >
-    {% endfor %}
-  </div>
-</article>
-{%endfor%}
+<section class="mt-20">
+  <h2 class="text-3xl font-thin text-center mb-8">Blog posts</h2>
+
+  {% for post in site.posts %}
+   <a href="{{site.baseurl}}{{post.url}}">
+     <article class="bg-stone-900 p-6 rounded-xl hover:bg-stone-600 cursor-pointer">
+       <div class="">
+         {{post.date | date_to_string}}
+       </div>
+       <h3 class="mb-4 text-2xl font-thin italic">{{post.title}}</h3>
+       <ul class="flex">
+         {% for c in post.categories %}
+           <li class="bg-stone-500 rounded-full px-4 mr-4 text-stone-900">{{c}}</li>
+         {% endfor %}
+       </ul>
+     </article>
+   </a>
+  {%endfor%}
 </section>
