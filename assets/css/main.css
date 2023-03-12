@@ -3,3 +3,55 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+#post h2 {
+  @apply text-2xl;
+  @apply font-bold;
+  @apply mt-8;
+  @apply mb-4;
+}
+#post p {
+  @apply pb-4;
+}
+#post a {
+  @apply text-sky-800;
+  @apply underline;
+  @apply hover:no-underline;
+}
+#post p code {
+  @apply bg-stone-900;
+  @apply rounded;
+  @apply px-2;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+#post pre {
+  @apply bg-stone-900;
+  @apply rounded-xl;
+  @apply p-6;
+  @apply overflow-x-auto;
+  @apply mb-4;
+}
+#post ol {
+  @apply list-decimal;
+  @apply list-inside;
+  @apply ml-8;
+  @apply mb-4;
+}
+#post ul {
+  @apply list-disc;
+  @apply list-inside;
+  @apply ml-8;
+  @apply mb-4;
+}
+#post img {
+  @apply w-full;
+  @apply rounded;
+  @apply mb-4;
+}
+#post hr {
+  @apply border-0;
+  @apply border-t-2;
+  @apply border-stone-900;
+  @apply my-10;
+}
