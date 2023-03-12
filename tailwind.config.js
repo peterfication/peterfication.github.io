@@ -12,4 +12,8 @@ module.exports = {
   plugins: [
     require('@tailwindcss/typography'),
   ],
+  // Only for development
+  // safelist: [
+  //   { pattern: /.*/ }
+  // ]
 }
