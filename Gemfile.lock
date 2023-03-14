@@ -95,6 +95,7 @@ DEPENDENCIES
   jekyll (~> 4.3.2)
   jekyll-feed (~> 0.12)
   jekyll-postcss
+  rouge
   rubocop
   tzinfo (>= 1, < 3)
   tzinfo-data
