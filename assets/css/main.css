@@ -55,3 +55,10 @@
   @apply border-stone-900;
   @apply my-10;
 }
+#post blockquote {
+  @apply border-l-4;
+  @apply border-sky-800;
+  @apply pl-4;
+  @apply italic;
+  @apply mb-4;
+}
