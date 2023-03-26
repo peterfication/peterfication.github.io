@@ -1,0 +1,67 @@
+---
+layout: default
+title: Peter's Portfolio
+---
+
+<div class="flex border-b-2 border-dashed pb-4 mb-8">
+  <div class="basis-1/2">
+    <a class="hover:underline cursor-pointer" href="/"><- Back</a>
+  </div>
+  <div class="text-right font-bold basis-1/2">
+    <a class="hover:underline cursor-pointer" href="/">Peter's blog</a>
+  </div>
+</div>
+
+<h2 class="text-sky-800 text-3xl font-thin text-center mb-8">{{page.title}}</h2>
+
+<div class="mb-6 justify-center container">
+  {% for project in site.data.projects %}
+  <div
+    class="mx-auto flex flex-col mb-4 items-center border-gray-700 bg-gray-800 border rounded-lg shadow md:flex-row md:max-w-2xl"
+  >
+    {% if project.image %}
+    <img
+      class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+      src="{{ project.image }}"
+      alt=""
+    />
+    {% endif %}
+
+    <div class="flex flex-col justify-between p-4 leading-normal">
+      <h5 class="mb-2 text-2xl font-thin tracking-tight text-white">
+        {{ project.title }}
+        <small class="ml-3 text-lg text-gray-400">{{ project.year }}</small>
+      </h5>
+
+      <ul class="flex mb-3 basis-3/4">
+        {% for tag in project.tags %}
+        <li
+          class="bg-stone-500 rounded-full px-2 mr-2 text-stone-900 whitespace-nowrap text-sm"
+        >
+          {{tag}}
+        </li>
+        {% endfor %}
+      </ul>
+
+      <p class="mb-3 font-normal text-gray-400">{{ project.description }}</p>
+
+      <p>
+        {% if project.website %}
+        <a
+          class="text-gray-400 underline cursor-pointer hover:no-underline"
+          href="{{ project.website }}"
+          >Website</a
+        >
+        {% endif %} {% if project.website and project.github %} | {% endif %} {%
+        if project.github %}
+        <a
+          class="text-gray-400 underline cursor-pointer hover:no-underline"
+          href="{{ project.github }}"
+          >Github</a
+        >
+        {% endif %}
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+</div>

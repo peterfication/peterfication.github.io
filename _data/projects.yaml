@@ -1,0 +1,75 @@
+- title: Peak Tracker
+  year: 2023
+  github: https://github.com/peterfication/peak_tracker_backend
+  website: https://peak-tracker.com
+  description: A website to tick off the mountain peaks that you already reached.
+  tags:
+    - Elixir
+    - Phoenix
+    - Ash
+    - PostgreSQL
+    - GraphQL
+
+- title: Peak Tracker App
+  year: 2023
+  github: https://github.com/peterfication/peak-tracker-app
+  description: The mobile application for Peak Tracker.
+  tags:
+    - TypeScript
+    - React Native
+    - Apollo
+    - Jest
+
+- title: Peak Tracker Auth
+  year: 2023
+  github: https://github.com/peterfication/peak-tracker-auth
+  website: https://auth.peak-tracker.com
+  description: The identity and OpenID connect provider for Peak Tracker.
+  tags:
+    - Ruby
+    - Rails
+    - OAuth2
+    - OpenID Connect
+
+- title: RSpec GraphQL Integration Testing Library
+  year: 2023
+  github: https://github.com/peterfication/rspec-graphql-integration
+  website: https://rubygems.org/gems/rspec-graphql-integration
+  description: My first Ruby gem that supports in writing integration tests for Ruby GraphQL APIs.
+  tags:
+    - Ruby
+    - RSpec
+    - GraphQL
+
+- title: Space Jumper Unity
+  year: 2022
+  github: https://github.com/peterfication/space-jumper-unity
+  website: https://peterfication.itch.io/space-jumper
+  description: Here I implemented my go-to game in Unity.
+  tags:
+    - Unity
+
+- title: Breathe TUI
+  year: 2022
+  github: https://github.com/peterfication/breathe
+  description: A terminal UI (TUI) to guide breathing sessions.
+  tags:
+    - Go
+
+- title: 24 Game
+  year: 2018
+  github: https://github.com/peterfication/24game
+  website: https://www.petergundel.de/24game
+  description: This is a prototype of the 24 game that displays (and doesn't hider) all possible solutions for a given set of numbers.
+  tags:
+    - TypeScript
+    - React
+
+- title: Space Jumper JS
+  year: 2018
+  github: https://github.com/peterfication/space-jumper
+  website: https://www.petergundel.de/space-jumper
+  description: This is an early prototype of my go-to game when trying out new technology.
+  tags:
+    - Javascript
+    - React
