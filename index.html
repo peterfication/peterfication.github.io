@@ -3,16 +3,21 @@ layout: home
 title: Home
 ---
 
-<div class="mb-14">
-  <h1 class="text-9xl text-sky-800 font-thin">Hi, I'm Peter</h1>
+<div class="mb-8 sm:mb-14 flex">
+  <div class="basis-1/4 sm:hidden mr-6 flex items-center">
+    <img src="assets/me.jpg" class="rounded-full shadown" />
+  </div>
+  <div class="basis-3/4 sm:basis-auto">
+    <h1 class="text-7xl sm:text-9xl text-sky-800 font-thin">Hi, I'm Peter</h1>
+  </div>
 </div>
 
 <div class="flex mb-6 text-lg text-justify">
-  <div class="basis-1/4">
+  <div class="basis-1/4 hidden sm:block">
     <img src="assets/me.jpg" class="rounded-full shadown" />
   </div>
 
-  <div class="basis-3/4 pl-8 pt-4">
+  <div class="basis-auto sm:basis-3/4 sm:pl-8 pt-4">
     <p class="mb-4">
       I am a highly skilled Ruby specialist with a strong background in
       TypeScript, and I enjoy collaborating on projects utilizing Kubernetes.
