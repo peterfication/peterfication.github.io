@@ -34,6 +34,11 @@ title: Peter's Portfolio
       </h5>
 
       <ul class="flex mb-3 basis-3/4">
+        <li
+          class="bg-stone-500 rounded-full px-2 mr-2 text-stone-900 whitespace-nowrap text-sm"
+        >
+          Status: {{project.status}}
+        </li>
         {% for tag in project.tags %}
         <li
           class="bg-stone-500 rounded-full px-2 mr-2 text-stone-900 whitespace-nowrap text-sm"
