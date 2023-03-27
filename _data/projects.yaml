@@ -28,6 +28,7 @@
   github: https://github.com/peterfication/peak-tracker-auth
   website: https://auth.peak-tracker.com
   description: The identity and OpenID connect provider for Peak Tracker.
+  image: assets/images/portfolio/peak-tracker-auth.jpg
   tags:
     - Ruby
     - Rails
@@ -40,6 +41,7 @@
   github: https://github.com/peterfication/rspec-graphql-integration
   website: https://rubygems.org/gems/rspec-graphql-integration
   description: My first Ruby gem that supports in writing integration tests for Ruby GraphQL APIs.
+  image: assets/images/portfolio/rspec-graphql-integration.png
   tags:
     - Ruby
     - RSpec
@@ -60,6 +62,7 @@
   status: First version completed
   github: https://github.com/peterfication/breathe
   description: A terminal UI (TUI) to guide breathing sessions.
+  image: assets/images/portfolio/breathe.png
   tags:
     - Go
 
@@ -68,7 +71,8 @@
   status: Early prototype completed
   github: https://github.com/peterfication/24game
   website: https://www.petergundel.de/24game
-  description: This is a prototype of the 24 game that displays (and doesn't hider) all possible solutions for a given set of numbers.
+  description: This is a prototype of the 24 game that displays (and doesn't hide) all possible solutions for a given set of numbers.
+  image: assets/images/portfolio/24game.png
   tags:
     - TypeScript
     - React
