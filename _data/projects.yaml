@@ -51,6 +51,7 @@
   github: https://github.com/peterfication/space-jumper-unity
   website: https://peterfication.itch.io/space-jumper
   description: Here I implemented my go-to game in Unity.
+  image: assets/images/portfolio/space-jumper-unity.jpg
   tags:
     - Unity
 
@@ -78,6 +79,7 @@
   github: https://github.com/peterfication/space-jumper
   website: https://www.petergundel.de/space-jumper
   description: This is an early prototype of my go-to game when trying out new technology.
+  image: assets/images/portfolio/space-jumper-js.jpg
   tags:
     - Javascript
     - React
