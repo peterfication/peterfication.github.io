@@ -141,4 +141,4 @@ if (authState === AuthStateMode.NotAuthenticated) {
 
 ---
 
-[This pull request shows](https://github.com/peterfication/peak-tracker-app/pull/33/files) how I refactored a 3-state boolean and a 3-state object with enums.
+[This pull request shows](https://github.com/peterfication/peak-tracker-app/pull/33/files) how I refactored a 3-state object with an enum.
