@@ -40,7 +40,7 @@ WITH
 car_daily_usages_with_streaks AS (
   SELECT
     *,
-    (day - ROW_NUMBER() OVER ()::integer) AS streak_group
+    (day - ROW_NUMBER() OVER (ORDER BY day)::integer) AS streak_group
   FROM car_daily_usages
   WHERE car_id = 'example-car-id'
     AND distance < 20
