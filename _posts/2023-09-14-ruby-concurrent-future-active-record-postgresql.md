@@ -42,6 +42,11 @@ ActiveRecord::ConnectionTimeoutError:
 could not obtain a database connection within 5.000 seconds
 ```
 
+```
+Errno::EBADF
+Bad file descriptor (Errno::EBADF)
+```
+
 When these errors started to happen, I cleaned up some code to not call the database anymore. But I felt like this was not enough. I wanted to prevent this from happening again so I started to research a bit more about the use of `Concurrent::Future` together with `ActiveRecord`. That's when I found this [blog article (Ruby Threads and ActiveRecord Connections)](https://jakeyesbeck.com/2016/02/14/ruby-threads-and-active-record-connections/) ([Reddit post with additional comments](https://www.reddit.com/r/ruby/comments/4637u0/ruby_threads_and_managing_activerecord_connections/)) about the issue I was facing. There the author explains that in order to avoid database connection issues in `Threads`, you need to wrap its block in a `ActiveRecord::Base.connection_pool.with_connection` block.
 
 For the usage of `Concurrent::Future` this will look like this:
