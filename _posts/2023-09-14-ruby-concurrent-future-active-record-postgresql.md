@@ -53,3 +53,5 @@ Concurrent::Future.execute do
   end
 end
 ```
+
+You can read more about the `ActiveRecord` connection pool here: [`ActiveRecord::ConnectionAdapters::ConnectionPool`](https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/ConnectionPool.html)
