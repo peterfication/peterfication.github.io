@@ -175,7 +175,7 @@ This script can also be executed in CI of course.
 
 ## Why not use the wisper gem?
 
-The wisper gem seems to be more suited to what we want to accomplish: events inside a single Ruby application. The message bus gem can do way more and can also receive events from a client or could distribute events between Ruby applications. So we just used a small feature set of what the message bus gem provides.
+The wisper gem seems to be more suited to what we want to accomplish: events inside a single Ruby application. The message bus gem can do way more things. For example it can also receive events from a client or could distribute events between Ruby applications. So we just used a small feature set of what the message bus gem provides.
 
 However, the message bus gem has an interface that decouples the two places in the call completely. It doesn't matter where you publish a message or where you subscribe to a message. In a future post I might implement the same thing with the wisper gem to be able to compare both approaches.
 
