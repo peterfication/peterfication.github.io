@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Event based system in Ruby (on Rails)
+title: Event based system in Ruby (on Rails) - Part 1
 date: 2023-09-20
 categories: ["ruby", "events"]
 ---
