@@ -8,6 +8,7 @@ categories: ["ruby", "events"]
 In Rails, you can set up ActiveRecord callbacks to execute code, e.g. when a user is created. Let's say you want to create a notifier that let's you know when there is a new user and you want to do this asynchronously. The typical way one would do this in Rails would look like this:
 
 ```ruby
+# app/models/user.rb
 class User < ApplicationRecord
   after_commit on: :create do
     NewUserNotificationJob.perform_later({ id: })
@@ -28,6 +29,7 @@ Another way would be to make your application event based. You could roll your o
 So with the `MessageBus` you would just publish an event like this:
 
 ```ruby
+# app/models/user.rb
 class User < ApplicationRecord
   after_commit on: :create do
     MessageBus.publish "/models/user/created", { id: }
@@ -38,6 +40,7 @@ end
 And then in an initializer for example you could subscribe to this event like this:
 
 ```ruby
+# e.g. config/initializer/message_bus.rb
 MessageBus.subscribe "/models/user/created" do |message|
   NewUserNotificationJob.perform_later(message.data)
 end
@@ -180,3 +183,5 @@ The wisper gem seems to be more suited to what we want to accomplish: events ins
 However, the message bus gem has an interface that decouples the two places in the call completely. It doesn't matter where you publish a message or where you subscribe to a message. In a future post I might implement the same thing with the wisper gem to be able to compare both approaches.
 
 > NOTE: [This PR](https://github.com/peterfication/peak-tracker-auth/pull/152) contains a very basic implementation of what the blog post described.
+
+[_Click here for part 2_](https://www.petergundel.de/ruby/events/2023/09/23/event-based-system-inside-ruby-on-rails-part-2.html)
