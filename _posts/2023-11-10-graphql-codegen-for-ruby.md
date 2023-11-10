@@ -1,7 +1,7 @@
 ---
 layout: post
 title: GraphQL codegen for Ruby
-date: 2023-11-11
+date: 2023-11-10
 categories: ["graphql", "codegen", "ruby"]
 ---
 
