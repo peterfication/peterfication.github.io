@@ -35,6 +35,16 @@
     - OAuth2
     - OpenID Connect
 
+- title: Ruby library for OpenMeteo
+  year: 2023
+  status: Active
+  github: https://github.com/open-meteo-ruby/open-meteo-ruby
+  website: https://rubygems.org/gems/open-meteo
+  description: A Ruby gem to easily interact with the OpenMeteo API.
+  tags:
+    - Ruby
+    - OpenMeteo
+
 - title: RSpec GraphQL Integration Testing Library
   year: 2023
   status: Completed
