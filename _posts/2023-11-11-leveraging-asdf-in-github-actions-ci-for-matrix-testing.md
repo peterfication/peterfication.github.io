@@ -40,15 +40,7 @@ So simple!
 
 ## Now to the Neovim tests
 
-For the Neovim tests I looked around for examples in other plugins. A very good place for this is probably just looking at the plugins from one of the most famous Neovim plugin authors: [Folke](https://github.com/folke). Amongst others, he created [`lazy.nvim`](https://github.com/folke/lazy.nvim), [`noice.nvim`](https://github.com/folke/noice.nvim), [`trouble.nvim`](https://github.com/folke/trouble.nvim) and [`which-key.nvim`](https://github.com/folke/which-key.nvim).
-
-I had a look at how tests are set up in `noice.nvim`. It helped me to understand how to setup a minimal Neovim test runner with [`plenary.nvim`](https://github.com/nvim-lua/plenary.nvim) installed and how to execute it. You need such an [`tests/init.lua`](https://github.com/folke/noice.nvim/blob/main/tests/init.lua) and then you can run the following command:
-
-```bash
-nvim --headless -u tests/init.lua -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/init.lua', sequential = true}"
-```
-
-I also had a look at the [`ci.yml`](https://github.com/folke/noice.nvim/blob/main/.github/workflows/ci.yml) and was about to just use this as well. It's using the nightly Neovim appimage to run the tests:
+For the Neovim tests I looked around for examples in other plugins. What I found where different ways of downloading Neovim manually and making sure the Github Actions runner has its executable in its `PATH`. E.g.
 
 ```bash
 mkdir -p /tmp/nvim
@@ -59,7 +51,7 @@ chmod a+x ./nvim.appimage
 echo "/tmp/nvim/squashfs-root/usr/bin/" >> $GITHUB_PATH
 ```
 
-Compared to what I was doing in the StyLua step this seemed a bit complicated to me, so I thought this could be done a bit easier with `asdf` :)
+I was about to do just the same when I thought about the approach I took for the StyLua job. Compared to what I was doing in the StyLua step this seemed a bit complicated to me, so I thought this could be done a bit easier with `asdf` :)
 
 With a `.tool-versions` file setup:
 
@@ -82,13 +74,7 @@ jobs:
     - name: Install asdf & tools
       uses: asdf-vm/actions/install@v2
     - name: Run tests
-      run: ./tests/run.sh
-```
-
-Where `run.sh` is just
-
-```sh
-nvim --headless -u tests/init.lua -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/init.lua', sequential = true}"
+      run: ./tests/run.sh # Or however you run the tests ...
 ```
 
 ## Matrix testing
@@ -126,4 +112,4 @@ jobs:
 
 ## Conclusion
 
-I'm really happy how easy and clean the setup for all of this turned out in the end. I'm sure I wouldn't have made it without the `tests/init.lua` from Folke. Or at least it would have taken way more time.
+I'm really happy how easy and clean the setup for all of this turned out in the end.
