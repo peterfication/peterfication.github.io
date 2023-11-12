@@ -81,6 +81,7 @@ jobs:
 
 When you develop a plugin you want to make sure it runs with different versions of your runtime. It turns out that `asdf` is a really good tool for this as well and its Github Action has support for this:
 
+{% raw %}
 ```yml
 name: CI
 
@@ -109,6 +110,7 @@ jobs:
         nvim --version
         ./tests/run.sh
 ```
+{% endraw %}
 
 ## Conclusion
 
