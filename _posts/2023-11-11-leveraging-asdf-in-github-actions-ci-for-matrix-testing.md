@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Leveraging the asdf version manager in Github Actions CI for matrix testing.
+title: Leveraging the asdf version manager in Github Actions CI for Neovim matrix testing.
 date: 2023-11-11
-categories: ["asdf", "ci", "github actions", "matrix testing"]
+categories: ["asdf", "ci", "github actions", "matrix testing", "neovim"]
 ---
 
 The other day I faced myself with the task to add CI to a Neovim plugin. The code is open source and on Github so it made sense to just use Github Actions for it. I wanted to introduce [StyLua](https://github.com/JohnnyMorganz/StyLua) to not discuss code style issues. This tool has a [Github action](https://github.com/JohnnyMorganz/stylua-action), so it should be super easy to setup, right?
