@@ -17,13 +17,13 @@ When I switched to vim, I first heard about fzf and began using it with joy to o
 
 The magic command for this is:
 
-```console
+```bash
 $ heroku apps --all | grep '(' | sed 's/ .*$//' | fzf --header='Select the app you want to tail the logs' | xargs heroku logs -t -a
 ```
 
 Of course you should create aliases for that:
 
-```console
+```bash
 alias heroku-logs="heroku apps --all | grep '(' | sed 's/ .*$//' | fzf --header='Select the app you want to tail the logs' | xargs heroku logs -t -a"
 alias heroku-bash="heroku apps --all | grep '(' | sed 's/ .*$//' | fzf --header='Select the app you want to bash into' | xargs heroku logs -t -a"
 ```
@@ -32,38 +32,46 @@ alias heroku-bash="heroku apps --all | grep '(' | sed 's/ .*$//' | fzf --header=
 
 The first command should be self explanatory. It gives you a list of all your apps on Heroku. But the format here is important! The command returns two lists. Your own apps and the apps on which you are a collaborator:
 
-```console
-$ heroku apps --all=== peterfication@example.com Apps
+```bash
+$ heroku apps --all
+
+=== peterfication@example.com Apps
 obscure-tundra-15966 (us)
-nameless-basin-19036 (eu)=== Collaborated Apps
+nameless-basin-19036 (eu)
+
+=== Collaborated Apps
 shrouded-fortress-18816 (eu)          someone-else@example.com
 ```
 
 First, we remove all the lines by piping the output to grep. Every line with an app contains brackets so we use the brackets to filter the lines.
 
-```console
-$ heroku apps --all | grep '('obscure-tundra-15966 (us)
+```bash
+$ heroku apps --all | grep '('
+
+obscure-tundra-15966 (us)
 nameless-basin-19036 (eu)
 shrouded-fortress-18816 (eu)          someone-else@example.com
 ```
 
 Next, we have to ensure that we only take the app name with nothing else. So we remove everything after the app name, starting with the empty space.
 
-```console
-$ heroku apps --all | grep '(' | sed 's/ .*$//'obscure-tundra-15966
+```bash
+$ heroku apps --all | grep '(' | sed 's/ .*$//'
+
+obscure-tundra-15966
 nameless-basin-19036
 shrouded-fortress-18816
 ```
 
 This is a nice list we can pipe to fzf. The result of fzf is then piped to the heroku command that we want to execute:
 
-```console
+```bash
 $ heroku apps --all | grep '(' | sed 's/ .*$//' | fzf --header='Select the app you want to bash into' | xargs heroku logs -t -a
 ```
 
 After selecting the desired app with fzf, the command finally expands for example to:
 
-```console
+```bash
 $ heroku logs -t -a shrouded-fortress-18816
 ```
 
