@@ -1,3 +1,14 @@
+- title: text-case.nvim
+  year: 2023
+  status: Active
+  github: https://github.com/johmsalas/text-case.nvim/
+  description:  An all in one plugin for converting text case in Neovim. I'm the main contributor next to the author.
+  image: assets/images/portfolio/text-case.nvim.png
+  tags:
+    - Lua
+    - Neovim
+    - Plugin
+
 - title: Peak Tracker
   year: 2023
   status: Active
