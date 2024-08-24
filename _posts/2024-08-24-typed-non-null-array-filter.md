@@ -24,7 +24,6 @@ We might have an external library that returns an array of elements that can be 
 
 ```typescript
 const filteredUsers = users.filter((user) => user !== null);
-
 // The type of filteredUsers is still (User | null)[]
 ```
 
