@@ -1,0 +1,14 @@
+{
+  "name": "array-filter-example",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch"
+  },
+  "devDependencies": {
+    "typescript": "5.3.2"
+  },
+  "packageManager": "yarn@4.4.0"
+}
