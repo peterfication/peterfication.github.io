@@ -5,6 +5,8 @@ date: 2024-08-24
 categories: ["typescript"]
 ---
 
+> Update: Since Version `5.5`, Typescript knows how to do this properly: [Inferred Type Predicates](https://devblogs.microsoft.com/typescript/announcing-typescript-5-5-beta/#inferred-type-predicates)
+
 This post is a reminder for myself about how to filter out nulls in an array in Typescript in an easy way.
 
 In Typescript, let's assume we have the following code:
