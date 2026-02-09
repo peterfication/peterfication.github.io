@@ -2,7 +2,7 @@
   "name": "peterfication.github.io",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Peter Gundel <mail@petergundel.de>",
+  "author": "Peter Morgenstern <mail@petergundel.de>",
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
